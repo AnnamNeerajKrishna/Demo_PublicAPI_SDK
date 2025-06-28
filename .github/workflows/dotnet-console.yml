@@ -1,0 +1,26 @@
+name: .NET Console CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.0.x'  # or '6.0.x' if your project uses .NET 6
+
+    - name: Restore dependencies
+      run: dotnet restore ./Public_Api_Demo.csproj
+
+    - name: Build
+      run: dotnet build ./Public_Api_Demo.csproj --configuration Release
